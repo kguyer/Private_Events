@@ -1,6 +1,4 @@
-<% if @created_events.length == 0 %>
-  <p>You haven't created any events yet.</p>
-<% else %>
+<% if @created_events.length > 0 %>
   <h3>My Created Events</h3>
   <% @created_events.each do |event| %>
     <ul>
@@ -15,32 +13,34 @@
       </li>
     </ul>
   <% end %>
+<% else %>
+  <p>You haven't created any events yet.</p>
 <% end %>
 
-<% if @attended_events.length == 0 %>
-  <p>you do not attend any events yet.</p>
-<% else %>
+<% if @attended_events.upcoming.any? %>
   <h3>Current Attending Events</h3>
-  <% @attended_events.each do |event| %>
+  <% @attended_events.upcoming.each do |event| %>
     <% if event.date_time >= DateTime.now %>
       <ul>
         <li><%= event.title %>: <%= link_to "See details", event_path(event) %></li>
       </ul>
     <% end %>
   <% end %>
+<% else %>
+  <p>You are not attending any current events yet.</p>
 <% end %>
 
-<% if @attended_events.length == 0 %>
-  <p>you have not yet attended any events.</p>
-<% else %>
+<% if @attended_events.past.any? %>
   <h3>Past Attended Events</h3>
-  <% @attended_events.each do |event| %>
+  <% @attended_events.past.each do |event| %>
     <% if event.date_time < DateTime.now %>
     <ul>
       <li><%= event.title %>: <%= link_to "See details", event_path(event) %></li>
     </ul>
     <% end %>
   <% end %>
+<% else %>
+  <p>You have not yet attended any events.</p>
 <% end %>
 <br>
 <p>View <%= link_to "all events", events_path %></p>

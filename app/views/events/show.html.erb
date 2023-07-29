@@ -43,7 +43,21 @@
     <% end %>
   </ul>
 <% else %>
-  <p><%= @event.attendees.length %> people attended this event</p><br>
+  <% if @current_user_attends %>
+    <% if @event.attendees.length > 2 %>
+      <p>You and <%= @event.attendees.length - 1 %> others attended this event</p><br>
+    <% elsif @event.attendees.length > 1 %>
+      <p>You and <%= @event.attendees.length - 1 %> other attended this event</p><br>
+    <% else %>
+      <p>Only you attended this event</p><br>
+    <% end %>
+  <% elsif @event.attendees.length > 1 %>
+    <p><%= @event.attendees.length %> people attended this event</p><br>
+  <% elsif @event.attendees.length > 0 %>
+    <p><%= @event.attendees.length %> person attended this event</p><br>
+  <% else %>
+    <p>No one attended this event</p><br>
+  <% end %>
 <% end %>
 
 <% if user_signed_in? %>
