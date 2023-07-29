@@ -3,7 +3,7 @@
 <p>Event Creator: <%= @event.creator.email.split("@")[0] %></p>
 <p>Description: <%= @event.description %></p>
 <p>Location: <%= @event.location %></p>
-<p>Date and Time: <%= @event.date_time %></p>
+<p>Date and Time: <%= @event.date_time.strftime("%m/%d/%Y: %l:%M %p") %></p><br>
 
 <% if current_user == @event.creator %>
   <%= link_to "Edit Event", edit_event_path(@event) %><br>
