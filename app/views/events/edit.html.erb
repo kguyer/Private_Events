@@ -1,0 +1,27 @@
+<h1>Edit Event</h1>
+
+<%= form_with model: @event do |form| %>
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </div><br>
+
+  <div>
+    <%= form.label :description %><br>
+    <%= form.text_area :description, size: "20x5" %>
+  </div><br>
+
+  <div>
+    <%= form.label :location %><br>
+    <%= form.text_field :location %>
+  </div><br>
+
+  <div>
+    <%= form.label :date_time %><br>
+    <%= form.datetime_local_field :date_time%>
+  </div><br>
+
+  <div>
+    <%= form.submit "Update Event" %>
+  </div>
+<% end %>

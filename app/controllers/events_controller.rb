@@ -2,7 +2,7 @@ class EventsController < ApplicationController
     before_action :authenticate_user!, except: [:index, :show]
 
     def index
-        @events = Event.all
+        @events = Event.all.includes(:creator, :attendees)
     end
 
     def new
@@ -20,7 +20,38 @@ class EventsController < ApplicationController
     end
 
     def show
+        @event = Event.includes(:attendees).find(params[:id])
+
+        event_attendee_ids = @event.attendees.map(&:id)
+
+        if current_user 
+            @current_user_attends = event_attendee_ids.include?(current_user.id) ? true : false
+        else
+            @current_user_attends = nil
+        end
+    end
+
+    def edit
         @event = Event.find(params[:id])
+    end
+    
+    def update
+        @event = Event.find(params[:id])
+    
+        if @event.update(event_params)
+          redirect_to @event
+        else
+          render :new, status: :unprocessable_entity
+        end
+    end
+    
+    def destroy
+        @event = Event.find(params[:id])
+    
+        @event.destroy
+    
+        flash[:notice] = 'You have successfully deleted the event.'
+        redirect_to root_path
     end
 
     private

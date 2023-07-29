@@ -1,7 +1,35 @@
 <h1><%= @event.title %></h1>
 
+<p>Event Creator: <%= @event.creator.email.split("@")[0] %></p>
 <p>Description: <%= @event.description %></p>
 <p>Location: <%= @event.location %></p>
 <p>Date and Time: <%= @event.date_time %></p>
 
-<p>View other events <%= link_to "here", events_path %></p>
+<% if current_user == @event.creator %>
+  <%= link_to "Edit Event", edit_event_path(@event) %><br>
+  <%= link_to "Delete Event", event_path(@event), data: {
+    turbo_method: :delete,
+    turbo_confirm: "Are you sure?"
+    } %><br><br>
+<% end %>
+
+<% if user_signed_in? %>
+  <% if @current_user_attends %>
+    <%= link_to "Do not attend", event_attendence_path(event_attendence: {event_attendee_id: current_user.id, attended_event_id: @event.id}), data: {turbo_method: "delete"} %>
+  <% else %>
+    <%= link_to "Attend", event_attendences_path(event_attendence: {event_attendee_id: current_user.id, attended_event_id: @event.id}), data: {turbo_method: "post"}%>
+  <% end %>
+<% else %>
+  Log in to be able to attend.
+<% end %>
+<p>Attendees (<%= @event.attendees.length %>):</p>
+<ul>
+  <% if user_signed_in? %>
+    <% @event.attendees.each do |attendee| %>
+      <li><%= attendee.email.split("@")[0] %></li>
+    <% end %>
+  <% else %>
+    <li>Log in too see who attends.</li>
+  <% end %>
+</ul>
+<%= link_to "Go back", root_path %>
