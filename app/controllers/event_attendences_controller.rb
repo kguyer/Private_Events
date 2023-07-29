@@ -6,7 +6,6 @@ class EventAttendencesController < ApplicationController
   
       attendence = EventAttendence.find_by(event_attendence_params)
       if attendence
-        flash[:notice] = 'You already attend this event'
         redirect_to event_path(event_id) and return
       end
       redirect_to root_path unless event_attendence_params[:event_attendee_id].to_i == current_user.id
@@ -23,7 +22,6 @@ class EventAttendencesController < ApplicationController
       redirect_to root_path and return unless event_attendence_params[:event_attendee_id].to_i == current_user.id
   
       event_attendence.destroy
-      flash[:notice] = "You don't attend anymore."
       redirect_to event_path(event_id)
     end
   
