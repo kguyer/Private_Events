@@ -5,12 +5,16 @@ https://www.theodinproject.com/lessons/ruby-on-rails-private-events
 
 ### Features
 When signed in:  
-* Users can create events, and edit and delete their own events  
-* Users can view other events and choose to attend events  
-* Users can see who else is attending those events 
+* Users can create events, and edit and delete their current events  
+* Users can view other events
+* Users can join and leave events created by others
+* Users can see who else is attending current events
 
 When signed out:  
-
+* Users can view all events
+* Users can view details of specific events, past or present
+* Users cannot create, edit, or delete events
+* Users cannot attend or leave events
 
 ### Ruby Version
 Version 3.2.2  

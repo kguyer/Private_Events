@@ -1,18 +1,37 @@
 <h1>Events</h1>
 
-<h4>Upcoming Events:</h4>
+<div class="future-events">
+  <h4>Upcoming Events:</h4>
+  <% if Event.upcoming.any? %>
+    <% Event.upcoming.each do |event| %>
+      <ul>
+        <li><%= event.title%>: <%= link_to "See details", event_path(event) %></li>
+      </ul>
+    <% end %>
+  <% else %>
+    <p>No upcoming events found</p>
+  <% end %>
+</div>
 
-<h4>Past Events:</h4>
-<% @events.each do |event| %>
-  <ul>
-    <li><%= link_to event.title, event_path(event) %>
-  </ul>
-<% end %>
+<div class="past-events">
+  <h4>Past Events:</h4>
+  <% if Event.past.any? %>
+    <% Event.past.each do |event| %>
+      <ul>
+        <li><%= event.title %>: <%= link_to "See details", event_path(event) %></li>
+      </ul>
+    <% end %>
+  <% else %>
+    <p>No events have happened yet</p>
+  <% end %>
+</div><br>
 
-<% if user_signed_in? %>
-  <p>Create a new event <%= link_to "here", new_event_path %></p>
-  <p>View your page <%= link_to "here", user_path %></p>
-  <p>Sign out <%= link_to "here", destroy_user_session_path, method: :delete %></p>
-<% else %>
-  <p>Sign in <%= link_to "here", user_session_path %></p>
-<% end %>
+<div class="links">
+  <% if user_signed_in? %>
+    <p>Create a <%= link_to "new event", new_event_path %></p>
+    <p>View <%= link_to "your page", user_path %></p>
+    <p>Sign out <%= link_to "here", destroy_user_session_path, method: :delete %></p>
+  <% else %>
+    <p>Sign in <%= link_to "here", user_session_path %></p>
+  <% end %>
+</div>

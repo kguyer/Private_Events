@@ -1,28 +1,46 @@
 <% if @created_events.length == 0 %>
-  You haven't created any events yet.
+  <p>You haven't created any events yet.</p>
 <% else %>
-  My created events:
-  <ul>
-    <% @created_events.each do |event| %>
+  <h3>My Created Events</h3>
+  <% @created_events.each do |event| %>
+    <ul>
       <li><%= event.title %>: <%= link_to "See details", event_path(event) %>
-      <%= link_to "Edit", edit_event_path(event) %>
-      <%= link_to "Delete", event_path(event), data: {
-        turbo_method: :delete,
-        turbo_confirm: "Are you sure?"
-      } %></li>
-    <% end %>
-  </ul>
-<% end %><br>
-
-<% if @attended_events.length == 0 %>
-  you do not attend any events yet.
-<% else %>
-  My attended events:
-  <ul>
-    <% @attended_events.each do |event| %>
-      <li><%= event.title %>: <%= link_to "See details", event_path(event) %></li>
-    <% end %>
-  </ul>
+      <% if event.date_time >= DateTime.now %>
+        <%= link_to "Edit", edit_event_path(event) %>
+        <%= link_to "Delete", event_path(event), data: {
+          turbo_method: :delete,
+          turbo_confirm: "Are you sure?"
+        } %>
+      <% end %>
+      </li>
+    </ul>
+  <% end %>
 <% end %>
 
-<p>Click <%= link_to "here", events_path %> to view all events</p>
+<% if @attended_events.length == 0 %>
+  <p>you do not attend any events yet.</p>
+<% else %>
+  <h3>Current Attending Events</h3>
+  <% @attended_events.each do |event| %>
+    <% if event.date_time >= DateTime.now %>
+      <ul>
+        <li><%= event.title %>: <%= link_to "See details", event_path(event) %></li>
+      </ul>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @attended_events.length == 0 %>
+  <p>you have not yet attended any events.</p>
+<% else %>
+  <h3>Past Attended Events</h3>
+  <% @attended_events.each do |event| %>
+    <% if event.date_time < DateTime.now %>
+    <ul>
+      <li><%= event.title %>: <%= link_to "See details", event_path(event) %></li>
+    </ul>
+    <% end %>
+  <% end %>
+<% end %>
+<br>
+<p>View <%= link_to "all events", events_path %></p>

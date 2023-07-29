@@ -6,30 +6,47 @@
 <p>Date and Time: <%= @event.date_time.strftime("%m/%d/%Y: %l:%M %p") %></p><br>
 
 <% if current_user == @event.creator %>
-  <%= link_to "Edit Event", edit_event_path(@event) %><br>
-  <%= link_to "Delete Event", event_path(@event), data: {
-    turbo_method: :delete,
-    turbo_confirm: "Are you sure?"
-    } %><br><br>
+  <% if @event.date_time >= DateTime.now %>
+    <%= link_to "Edit Event", edit_event_path(@event) %><br>
+    <%= link_to "Delete Event", event_path(@event), data: {
+      turbo_method: :delete,
+      turbo_confirm: "Are you sure?"
+      } %><br><br>
+  <% end %>
 <% end %>
 
 <% if user_signed_in? %>
-  <% if @current_user_attends %>
-    <%= link_to "Do not attend", event_attendence_path(event_attendence: {event_attendee_id: current_user.id, attended_event_id: @event.id}), data: {turbo_method: "delete"} %>
-  <% else %>
-    <%= link_to "Attend", event_attendences_path(event_attendence: {event_attendee_id: current_user.id, attended_event_id: @event.id}), data: {turbo_method: "post"}%>
+  <% if @event.date_time >= DateTime.now %>
+    <% if @current_user_attends %>
+      <%= link_to "Do not attend", event_attendence_path(event_attendence: {event_attendee_id: current_user.id, attended_event_id: @event.id}), data: {turbo_method: "delete"} %>
+    <% else %>
+      <%= link_to "Attend", event_attendences_path(event_attendence: {event_attendee_id: current_user.id, attended_event_id: @event.id}), data: {turbo_method: "post"}%>
+    <% end %>
   <% end %>
 <% else %>
-  Log in to be able to attend.
-<% end %>
-<p>Attendees (<%= @event.attendees.length %>):</p>
-<ul>
-  <% if user_signed_in? %>
-    <% @event.attendees.each do |attendee| %>
-      <li><%= attendee.email.split("@")[0] %></li>
-    <% end %>
+  <% if @event.date_time >= DateTime.now %>
+    <p>Log in to be able to attend.</p>
   <% else %>
-    <li>Log in too see who attends.</li>
+    <p>This event has already occurred.</p>
   <% end %>
-</ul>
-<%= link_to "Go back", root_path %>
+<% end %>
+
+<% if @event.date_time >= DateTime.now %>
+  <p>Attendees (<%= @event.attendees.length %>):</p>
+  <ul>
+    <% if user_signed_in? %>
+      <% @event.attendees.each do |attendee| %>
+        <li><%= attendee.email.split("@")[0] %></li>
+      <% end %>
+    <% else %>
+      <li>Log in too see who attends.</li>
+    <% end %>
+  </ul>
+<% else %>
+  <p><%= @event.attendees.length %> people attended this event</p><br>
+<% end %>
+
+<% if user_signed_in? %>
+  <p>Go back to <%= link_to "your page", user_path %></p>
+<% end %>
+<p>Go back to <%= link_to "home page", root_path %></p>
