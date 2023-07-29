@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   root "events#index"
 
+  get "/user", to: "users#show"
+  
   resources :events
   resources :event_attendences, only: [:create, :destroy]
 end

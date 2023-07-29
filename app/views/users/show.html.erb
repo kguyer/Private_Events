@@ -4,7 +4,12 @@
   My created events:
   <ul>
     <% @created_events.each do |event| %>
-      <li><%= event.title %>: <%= link_to "See details", event_path(event) %> <%= link_to "Edit", edit_event_path(event) %></li>
+      <li><%= event.title %>: <%= link_to "See details", event_path(event) %>
+      <%= link_to "Edit", edit_event_path(event) %>
+      <%= link_to "Delete", event_path(event), data: {
+        turbo_method: :delete,
+        turbo_confirm: "Are you sure?"
+      } %></li>
     <% end %>
   </ul>
 <% end %>
@@ -19,3 +24,5 @@
     <% end %>
   </ul>
 <% end %>
+
+<p>Click <%= link_to "here", events_path %> to view all events</p>

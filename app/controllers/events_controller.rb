@@ -50,7 +50,6 @@ class EventsController < ApplicationController
     
         @event.destroy
     
-        flash[:notice] = 'You have successfully deleted the event.'
         redirect_to root_path
     end
 
