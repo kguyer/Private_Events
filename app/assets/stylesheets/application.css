@@ -13,3 +13,36 @@
  *= require_tree .
  *= require_self
  */
+.field_with_errors input[type="text"] {
+    border: 1px solid red;
+}
+
+.field_with_errors textarea {
+    border: 1px solid red;
+}
+
+.field_with_errors input[type="datetime-local"] {
+    border: 1px solid red;
+}
+
+.field_with_errors > span {
+    color: red;
+}
+
+/* .form {
+    width: 250px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+.form-new {
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.button {
+    margin-top: 10px;
+    padding: 10px;
+    color: #fff;
+} */
