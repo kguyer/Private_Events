@@ -1,0 +1,39 @@
+<%= form_with model: @event do |form| %>
+<div class="form">
+  <div class="input">
+    <%= form.label :title, "Event" %><br>
+    <%= form.text_field :title %>
+    <% @event.errors.full_messages_for(:title).each do |message| %>
+      <div class="field_with_errors"><span><%= message %></span></div>
+    <% end %>
+  </div><br>
+
+  <div class="input">
+    <%= form.label :description, "Event Description" %><br>
+    <%= form.text_area :description, size: "30x5" %>
+    <% @event.errors.full_messages_for(:description).each do |message| %>
+      <div class="field_with_errors"><span><%= message %></span></div>
+    <% end %>
+  </div><br>
+
+  <div class="input">
+    <%= form.label :location, "Place" %><br>
+    <%= form.text_field :location %>
+    <% @event.errors.full_messages_for(:location).each do |message| %>
+      <div class="field_with_errors"><span><%= message %></span></div>
+    <% end %>
+  </div><br>
+
+  <div class="date-local">
+    <%= form.label :date_time, "Date & Time" %><br>
+    <%= form.datetime_local_field :date_time%>
+    <% @event.errors.full_messages_for(:date_time).each do |message| %>
+      <div class="field_with_errors"><span><%= message %></span></div>
+    <% end %>
+  </div><br>
+
+  <div class="button">
+    <%= form.submit %>
+  </div>
+</div>
+<% end %>
